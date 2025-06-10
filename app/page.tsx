@@ -1,5 +1,6 @@
 "use client"
 import Campaigns from "@/components/Campaigns";
+import Contact from "@/components/ContactUs";
 import Navbar from "@/components/Navbar";
 import { useState } from "react";
 
@@ -19,8 +20,8 @@ export default function Home() {
         {/* Donate content */}
       </div>
       
-      <div id="contact" className="min-h-screen max-w-7xl">
-        {/* Contact content */}
+      <div id="contact" className="h-fit py-12 max-w-7xl">
+        <Contact />
       </div>
     </div>
   </div>
