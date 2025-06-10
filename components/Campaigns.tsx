@@ -5,6 +5,7 @@ import Image from 'next/image'
 
 const Campaigns = ({ searched } : { searched: string; }) => {
     const [filteredCampaigns, setFilteredCampaigns] = useState<any[]>(dummy_campaigns);
+    const [showAll, setShowAll] = useState(false);
 
     useEffect(() => {  
         const filtered = searched !== "" 
@@ -13,13 +14,16 @@ const Campaigns = ({ searched } : { searched: string; }) => {
               )
             : dummy_campaigns;
         setFilteredCampaigns(filtered);
+        setShowAll(false); // Reset showAll when search changes
     }, [searched]);
+
+    const visibleCampaigns = showAll ? filteredCampaigns : filteredCampaigns.slice(0, 6);
 
     return (
         <div className="flex flex-col items-center justify-between gap-4">
             <h1 className='text-4xl text-rose-400'> Our Campaigns </h1>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
-            {filteredCampaigns.map((item, i) => (
+                {visibleCampaigns.map((item, i) => (
             <div key={i} className="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-lg transition-shadow">
             <div className="aspect-video relative">
                 <Image 
@@ -57,6 +61,14 @@ const Campaigns = ({ searched } : { searched: string; }) => {
             </div>
         ))}
         </div>
+        {filteredCampaigns.length > 6 && (
+            <button
+                onClick={() => setShowAll(!showAll)}
+                className="cursor-pointer px-6 py-2 mb-8 text-white bg-rose-400 rounded-full hover:bg-rose-500 transition-colors"
+            >
+                {showAll ? 'Show Less' : 'See More'}
+            </button>
+        )}
     </div>
   )
 }
