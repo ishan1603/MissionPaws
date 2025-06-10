@@ -1,13 +1,25 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { dummy_campaigns } from '@/constants/lib';
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 
 const Campaigns = ({ searched } : { searched: string; }) => {
-  return (
-    <div className="flex flex-col items-center justify-between gap-4">
-        <h1 className='text-4xl text-rose-400'> Our Campaigns </h1>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
-        {dummy_campaigns.map((item, i) => (
+    const [filteredCampaigns, setFilteredCampaigns] = useState<any[]>(dummy_campaigns);
+
+    useEffect(() => {  
+        const filtered = searched !== "" 
+            ? dummy_campaigns.filter(item => 
+                item.heading.toLowerCase().includes(searched.toLowerCase())
+              )
+            : dummy_campaigns;
+        setFilteredCampaigns(filtered);
+    }, [searched]);
+
+    return (
+        <div className="flex flex-col items-center justify-between gap-4">
+            <h1 className='text-4xl text-rose-400'> Our Campaigns </h1>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
+            {filteredCampaigns.map((item, i) => (
             <div key={i} className="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-lg transition-shadow">
             <div className="aspect-video relative">
                 <Image 
