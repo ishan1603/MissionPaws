@@ -5,33 +5,51 @@ import { useState, useEffect } from 'react';
 import { navItems } from '@/constants/lib';
 
 const Navbar = ({ searchTerm, setSearchTerm } : { searchTerm: string; setSearchTerm: (e : string) => void; }) => {
-  const [section, setSection] = useState("campaigns");
+  const [section, setSection] = useState("donate");
+  const navbarHeight = 100;
 
   useEffect(() => {
-    const handleScroll = () => {
-      const sections = navItems.map(item => document.getElementById(item.link));
-      const scrollPosition = window.scrollY + 100; // offset for navbar height
+    const observerOptions = {
+      root: null,
+      rootMargin: `-${navbarHeight}px 0px 0px 0px`,
+      threshold: 0
+    };
 
-      sections.forEach((section) => {
-        if (section) {
-          const sectionTop = section.offsetTop;
-          const sectionHeight = section.clientHeight;
-
-          if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
-            setSection(section.id);
-          }
+    const observerCallback = (entries: IntersectionObserverEntry[]) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          setSection(entry.target.id);
         }
       });
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+    const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+    // Observe all nav sections
+    navItems.forEach(item => {
+      const element = document.getElementById(item.link);
+      if (element) {
+        observer.observe(element);
+      }
+    });
+
+    // Cleanup
+    return () => observer.disconnect();
+  }, [navbarHeight]);
 
   const scrollToSection = (elementId: string) => {
     const element = document.getElementById(elementId);
-    element?.scrollIntoView({ behavior: 'smooth' });
-  };    
+    
+    if (element) {
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - navbarHeight;
+      
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    }
+  };
 
   return (
     <div className="w-full h-fit bg-white px-6 py-4 fixed top-0 z-50 shadow-[0_2px_15px_-3px_rgba(255,0,127,0.07)]">

@@ -1,11 +1,11 @@
 export const navItems = [
     {
-        name: "Campaigns",
-        link: "campaigns"
-    },
-    {
         name: "Donate",
         link: "donate"
+    },
+    {
+        name: "Campaigns",
+        link: "campaigns"
     },
     {
         name: "Contact Us",
