@@ -3,6 +3,7 @@
 import SearchInput from "./SearchInput";
 import { useState, useEffect } from "react";
 import { navItems } from "@/constants/lib";
+import Image from "next/image";
 
 const Navbar = ({
   searchTerm,
@@ -64,7 +65,9 @@ const Navbar = ({
   return (
     <div className="w-full h-fit bg-white px-6 py-4 fixed top-0 z-50 shadow-[0_2px_15px_-3px_rgba(255,0,127,0.07)]">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
-        <div className="text-sm">MISSIONPAWS LOGO</div>
+        <div className="text-sm">
+          <Image src="/logomp.jpg" alt="MP LOGO" width={80} height={80} />
+        </div>
         <div className="flex items-center gap-6">
           {navItems.map((item, i) => (
             <button
