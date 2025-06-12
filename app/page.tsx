@@ -6,6 +6,7 @@ import Stories from "@/components/Stories";
 import Hero from "@/components/Hero";
 import { useState } from "react";
 
+
 export default function Home() {
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -21,6 +22,8 @@ export default function Home() {
         <div id="campaigns" className="h-fit w-full max-w-7xl py-8">
           <Stories />
         </div>
+
+        
 
         <div id="contact" className="h-fit w-full max-w-7xl py-8">
           <Contact />
