@@ -34,8 +34,10 @@ export default function Hero() {
                     : "opacity-0 -translate-y-10"
                 }`}
               >
-                <span className="block">MissionPaws</span>
-                <span className="block text-white">Lucknow</span>
+                <span className="inline">
+                  Mission
+                  <span className="text-white">Paws</span>
+                </span>
               </h1>
               <p
                 className={`mt-3 text-base text-gray-300 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0 transition-all duration-1000 delay-200 ${
