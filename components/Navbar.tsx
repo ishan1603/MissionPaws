@@ -1,73 +1,45 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
-
+import { IconUserCircle } from "@tabler/icons-react";
 import SearchInput from "./SearchInput";
-import { useState, useEffect } from "react";
 import { navItems } from "@/constants/lib";
-import Image from "next/image";
+import { Dispatch, SetStateAction } from "react";
 
 const Navbar = ({
   searchTerm,
   setSearchTerm,
+  activeSection,
 }: {
   searchTerm: string;
-  setSearchTerm: (e: string) => void;
+  setSearchTerm: Dispatch<SetStateAction<string>>;
+  activeSection: string;
 }) => {
-  const [section, setSection] = useState("donate");
   const navbarHeight = 100;
-
-  useEffect(() => {
-    const observerOptions = {
-      root: null,
-      rootMargin: `-${navbarHeight}px 0px 0px 0px`,
-      threshold: 0,
-    };
-
-    const observerCallback = (entries: IntersectionObserverEntry[]) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          setSection(entry.target.id);
-        }
-      });
-    };
-
-    const observer = new IntersectionObserver(
-      observerCallback,
-      observerOptions
-    );
-
-    // Observe all nav sections
-    navItems.forEach((item) => {
-      const element = document.getElementById(item.link);
-      if (element) {
-        observer.observe(element);
-      }
-    });
-
-    // Cleanup
-    return () => observer.disconnect();
-  }, [navbarHeight]);
 
   const scrollToSection = (elementId: string) => {
     const element = document.getElementById(elementId);
 
     if (element) {
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition =
-        elementPosition + window.pageYOffset - navbarHeight;
+      if (elementId === "home") {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+      } else {
+        const elementPosition = element.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.scrollY - navbarHeight;
 
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth",
-      });
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: "smooth",
+        });
+      }
     }
   };
 
   return (
     <div className="w-full h-fit bg-white px-6 py-4 fixed top-0 z-50 shadow-[0_2px_15px_-3px_rgba(255,0,127,0.07)]">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
-        <div className="text-sm">
-          <Image src="/logomp.jpg" alt="MP LOGO" width={80} height={80} />
-        </div>
         <div className="flex items-center gap-6">
           {navItems.map((item, i) => (
             <button
@@ -75,7 +47,7 @@ const Navbar = ({
               onClick={() => scrollToSection(item.link)}
               className={`px-4 py-2 text-sm font-medium transition-colors cursor-pointer
                 ${
-                  section === item.link
+                  activeSection === item.link
                     ? "text-[#f792c5] border-b-2 border-[#f792c5]"
                     : "text-gray-600 hover:text-[#f792c5]"
                 }`}
@@ -91,6 +63,12 @@ const Navbar = ({
             placeholder="Search campaigns..."
           />
         </div>
+        <IconUserCircle
+          stroke={1.5}
+          width={35}
+          height={35}
+          className="cursor-pointer"
+        />
       </div>
     </div>
   );
