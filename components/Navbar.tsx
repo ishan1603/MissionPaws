@@ -1,9 +1,9 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
-import { IconUserCircle } from "@tabler/icons-react";
+
 import SearchInput from "./SearchInput";
 import { navItems } from "@/constants/lib";
 import { Dispatch, SetStateAction } from "react";
+import Image from "next/image";
 
 const Navbar = ({
   searchTerm,
@@ -40,6 +40,9 @@ const Navbar = ({
   return (
     <div className="w-full h-fit bg-white px-6 py-4 fixed top-0 z-50 shadow-[0_2px_15px_-3px_rgba(255,0,127,0.07)]">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
+        <div className="text-sm">
+          <Image src="/logomp.jpg" alt="MP LOGO" width={80} height={80} />
+        </div>
         <div className="flex items-center gap-6">
           {navItems.map((item, i) => (
             <button
@@ -63,12 +66,6 @@ const Navbar = ({
             placeholder="Search campaigns..."
           />
         </div>
-        <IconUserCircle
-          stroke={1.5}
-          width={35}
-          height={35}
-          className="cursor-pointer"
-        />
       </div>
     </div>
   );
