@@ -3,6 +3,7 @@ import { dummy_campaigns } from '@/constants/lib';
 import React, { useEffect, useState } from 'react'
 import { handleDonate } from "../utils/razorpay";
 import Image from 'next/image'
+import Link from 'next/link';
 
 // Extend the Window interface to include Razorpay
 declare global {
@@ -41,8 +42,9 @@ const Campaigns = ({ searched } : { searched: string; }) => {
         <div className="flex flex-col items-center justify-between gap-4">
             <h1 className='text-4xl text-rose-400'> Our Campaigns </h1>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
-                {visibleCampaigns.map((item, i) => (
-                    <div key={i} className="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-2xl hover:scale-105 transition-all duration-200 cursor-pointer flex flex-col">
+            {visibleCampaigns.map((item, i) => (
+                <div key={i} className="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-2xl hover:scale-105 transition-all duration-200 cursor-pointer flex flex-col">
+                    <Link href={`/${item.slug}`}>
                         <div className="aspect-video relative">
                             <Image 
                                 src={item.img} 
@@ -72,22 +74,26 @@ const Campaigns = ({ searched } : { searched: string; }) => {
                                     </span>
                                 </div>
                             </div>
-                            <button
-                                onClick={() => {
-                                    setActiveCampaign(item);
-                                    setModalOpen(true);
-                                }}
-                                className="mt-4 w-full bg-rose-400 text-white px-4 py-2 rounded hover:bg-rose-600 transition cursor-pointer"
-                            >
-                                Donate Now
-                            </button>
                         </div>
+                    </Link>
+                    <div className="p-4">
+                        <button
+                            onClick={(e) => {
+                                e.preventDefault();
+                                setActiveCampaign(item);
+                                setModalOpen(true);
+                            }}
+                            className="w-full bg-rose-400 text-white px-4 py-2 rounded hover:bg-rose-600 transition cursor-pointer"
+                        >
+                            Donate Now
+                        </button>
                     </div>
-                ))}
+                </div>
+            ))}
             </div>
             {/* Modal for donation amount */}
             {modalOpen && (
-<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm">
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm">
                     <div className="bg-white rounded-xl shadow-lg p-8 w-full max-w-xs flex flex-col items-center pointer-events-auto border-2 border-rose-200">
                         <h2 className="text-xl font-bold mb-2 text-rose-400">Donate to {activeCampaign?.heading}</h2>
                         <input
