@@ -32,10 +32,11 @@ export default function Home() {
 
   return (
     <div className="w-full min-h-screen bg-[#FAF9F6]">
-      <Navbar
-        searchTerm={searchTerm}
-        setSearchTerm={setSearchTerm}
-        activeSection={activeSection}
+      <Navbar 
+        slug = {false}
+        searchTerm={searchTerm} 
+        setSearchTerm={setSearchTerm} 
+        activeSection={activeSection} 
       />
       <section id="home" className="min-h-screen">
         <Hero />
@@ -52,7 +53,8 @@ export default function Home() {
         <section id="contact" className="h-fit w-full max-w-7xl py-8">
           <Contact />
         </section>
-        <footer id="footer" className="w-full h-fit py-8 bg-rose-400"></footer>
+        <footer id="footer" className="w-full h-fit py-8 bg-rose-400">
+        </footer>
       </div>
     </div>
   );
